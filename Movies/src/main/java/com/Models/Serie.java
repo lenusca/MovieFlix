@@ -35,6 +35,7 @@ public class Serie {
     public String Type;
     public String totalSeasons;
     public String Response;
+    public int user = 0;
 	public Serie() {
 		// TODO Auto-generated constructor stub
 	}

@@ -33,9 +33,9 @@ public class MoviesApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(MoviesApplication.class, args);
 		MainController maincontroller = context.getBean(MainController.class);
 		maincontroller.addMovies(); //listar todos os filmes
-		maincontroller.addMovie(); // detalhes de um filme especifico
+		//maincontroller.addMovie(); // detalhes de um filme especifico
 		maincontroller.addSeries(); //listar todos as séries
-		maincontroller.addSerie(); //detalhes especificos de uma série
+		//maincontroller.addSerie(); //detalhes especificos de uma série
 		RestApi restapi = context.getBean(RestApi.class);
 
 	}

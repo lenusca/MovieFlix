@@ -37,6 +37,7 @@ public class Movie {
     public String Production;
     public String Website;
     public String Response;
+    public int user = 0;
     
 	public Movie() {
 		// TODO Auto-generated constructor stub

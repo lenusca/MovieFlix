@@ -28,16 +28,16 @@ public class CallRestService{
 	static RestTemplate restTemplate = new RestTemplate();
 	
 
-	public Movie getMovie(){
+	public Movie getMovie(String id){
 		//buscar filme especifico
-		ResponseEntity<Movie>response = restTemplate.exchange("http://www.omdbapi.com/?t=Frozen&type=movie&apikey=a593ebbd", HttpMethod.GET, null, new ParameterizedTypeReference<Movie>(){});
+		ResponseEntity<Movie>response = restTemplate.exchange("http://www.omdbapi.com/?i="+id+"&type=movie&apikey=a593ebbd", HttpMethod.GET, null, new ParameterizedTypeReference<Movie>(){});
 		Movie m = response.getBody();
 		
 		return m;
 	}
 	
 	public Search[] getMovies() {
-		String []movietitles = {"love", "movie", "dog", "fast", "follow", "pirates", "war", "Frozen", "star", "life"};
+		String []movietitles = {"love", "movie", "dog", "fast", "follow", "pirates", "war", "Frozen", "star", "life", "man", "avengers", "disney", "saw"};
 		Search []movie = new Search[movietitles.length];
 		for(int i=0; i<movietitles.length; i++) {
 			ResponseEntity<Search>response = restTemplate.exchange("http://www.omdbapi.com/?s="+movietitles[i]+"&type=movie&apikey=a593ebbd", HttpMethod.GET, null, new ParameterizedTypeReference<Search>(){});
@@ -47,8 +47,8 @@ public class CallRestService{
 		return movie;
 	}
 	
-	public Serie getSerie() {
-		ResponseEntity<Serie>response = restTemplate.exchange("http://www.omdbapi.com/?t=Awkward&type=series&apikey=a593ebbd", HttpMethod.GET, null, new ParameterizedTypeReference<Serie>(){});
+	public Serie getSerie(String id) {
+		ResponseEntity<Serie>response = restTemplate.exchange("http://www.omdbapi.com/?i="+id+"&type=series&apikey=a593ebbd", HttpMethod.GET, null, new ParameterizedTypeReference<Serie>(){});
 		Serie serie = response.getBody();
 		System.out.print(serie);
 		return serie;
