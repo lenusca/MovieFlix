@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 
 
-class UserMovies extends Component{
+class Search extends Component{
     constructor(){
         super();
         this.state = {
             loading : true,
-            movies: [],
+            search: [],
             
         }
     }
     componentDidMount(){
-        fetch("http://localhost:8888/UserMovies/").then(response=> response.json()).then(data => this.setState({movies: data, isLoading:false}))
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const name = urlParams.get('name');
+        console.log(name);
+        fetch("http://localhost:8888/Search/?name="+name).then(response=> response.json()).then(data => this.setState({search: data, isLoading:false}))
     }
     render (){
         return(
@@ -51,23 +55,27 @@ class UserMovies extends Component{
 
                     </div>
 
-                <div id="main" style={{backgroundImage:"url('images/movie.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundAttachment: "fixed", minHeight:"1000px" }}>
+                <div id="main" style={{backgroundImage:"url('images/movie.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundAttachment: "fixed" }}>
                         <section id="portfolio" class="two">
-                            <h1 style={{textAlign: "left", marginTop: "-50px", fontSize: "50px", marginLeft: "50px", color: "#e27689", fontWeight: "bold"}}>MOVIES</h1>
                             <div class="grid-container">
                                 {!this.state.isLoading?(
-                                    this.state.movies.length===0?(
-                                       <h3 style={{color: "white"}}>ADD MOVIES TO YOUR FAVORITES</h3>
+                                    this.state.search.length===0?(
+                                        <h3 style={{color: "white"}}>NOTHING</h3>
                                     ):(
-                                        this.state.movies.usermovies.map(
+                                        this.state.search.topmovies.map(
                                             user => {
                                                 return (
-                                                    <div class ="grid-item" style={{position: "relative", right:"50px", marginRight:"50px"}} ><a href={"DetailMovie?id="+user.imdbID}><img alt=" " src={user.Poster} style={{width:"350 px", height:"350px"}}/><p style={{color:"white"}}>{user.Title}<p><small style={{fontSize: "20px", fontWeight: "bolder",color:"grey"}}>{user.Year}</small></p></p></a></div>        
+                                                    <div class ="grid-item" style={{position: "relative", right:"50px"}} ><a href={"DetailMovie?id="+user.imdbID}><img alt=" " src={user.Poster} style={{width:"350 px", height:"350px"}}/><p style={{color:"white"}}>{user.Title}<p><small style={{fontSize: "20px", fontWeight: "bolder",color:"grey"}}>{user.Year}</small></p></p></a></div>        
+                                                );
+                                            }),
+                                        this.state.search.topseries.map(
+                                            user => {
+                                                return (
+                                                    <div class ="grid-item" style={{position: "relative", right:"50px"}} ><a href={"DetailMovie?id="+user.imdbID}><img alt=" " src={user.Poster} style={{width:"350 px", height:"350px"}}/><p style={{color:"white"}}>{user.Title}<p><small style={{fontSize: "20px", fontWeight: "bolder",color:"grey"}}>{user.Year}</small></p></p></a></div>        
                                                 );
                                             })
                                     )
-
-                                                                        
+                                    
                                 ):(
                                     <h3>Loading...</h3>
                                 )}
@@ -85,5 +93,5 @@ class UserMovies extends Component{
 
  
 
-export default UserMovies;
+export default Search;
 

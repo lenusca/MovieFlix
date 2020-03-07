@@ -31,8 +31,8 @@ public class MainController {
 	
 	//Adicionar a base dados
 	//Um filme
-	public void addMovie () {
-		Movie movie = restService.getMovie();
+	public void addMovie (String id) {
+		Movie movie = restService.getMovie(id);
 		movieRepository.save(movie);
 		System.out.println("Movie "+movie.Title+" added");
 	}
@@ -51,8 +51,8 @@ public class MainController {
 		}	
 	}
 	//Uma série
-	public void addSerie() {
-		Serie serie = restService.getSerie();
+	public void addSerie(String id) {
+		Serie serie = restService.getSerie(id);
 		serieRepository.save(serie);
 		System.out.println("Serie "+serie.Title+" added");
 		

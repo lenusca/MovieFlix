@@ -35,10 +35,10 @@ class UserSeries extends Component{
                                     <li><a href="/ListMovies"><span class="icon solid  fa-film">MOVIES</span></a></li>
                                     <li><a href="/ListSeries"><span class="icon solid  fa-tv">SERIES</span></a></li>
                                     <img alt=" " src={'images/user.jpg'} style={{height: "60px", marginRight: "80%", position: "relative", marginTop: "460px", borderRadius: "60px"}}/>
-                                    <li class="dropup" style={{marginTop: "-78px"}}><a href="#rated"><span >USER</span>
+                                    <li class="dropup" style={{marginTop: "-78px",position:"relative"}}><a href="#rated"><span >USER</span>
                                         <div class="dropup-content">
-                                            <a href="/MovieStats">Stats movie</a>
-                                            <a href="/SerieStats">Stats serie</a>
+                                            <a href="/MovieStats">Movies Stats</a>
+                                            <a href="/SerieStats">Series Stats</a>
                                             <a href="/UserMovies">Movies watched</a>
                                             <a href="/UserSeries">Series watched</a>
                                         </div>
@@ -49,9 +49,7 @@ class UserSeries extends Component{
 
                     </div>
 
-                    
-
-                </div>
+                    </div>
 
                 <div id="main" style={{backgroundImage:"url('images/movie.jpg')", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundAttachment: "fixed", minHeight:"1000px"}}>
                         <section id="portfolio" class="two">
@@ -61,7 +59,7 @@ class UserSeries extends Component{
                                         this.state.series.length===0?(
                                         <h3 style={{color: "white"}}>ADD SERIES TO YOUR FAVORITES</h3>
                                         ):(
-                                            this.state.series.map(
+                                            this.state.series.userseries.map(
                                                 user => {
                                                     return (
                                                         <div class ="grid-item" style={{position: "relative", right:"50px", marginRight:"50px"}} ><a href={"DetailSerie?id="+user.imdbID}><img alt=" " src={user.Poster} style={{width:"350 px", height:"350px"}}/><p style={{color:"white"}}>{user.Title}<p><small style={{fontSize: "20px", fontWeight: "bolder",color:"grey"}}>{user.Year}</small></p></p></a></div>        

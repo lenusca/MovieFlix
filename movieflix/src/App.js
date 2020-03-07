@@ -10,16 +10,12 @@ import MovieStats from './pages/MovieStats';
 import SerieStats from './pages/SerieStats';
 import UserMovies from './pages/UserMovies';
 import UserSeries from './pages/UserSeries';
+import Search from './pages/search';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-
-
-
-
-
 
 
 function App() {
@@ -51,9 +47,13 @@ function App() {
         <Route path="/UserSeries">
           <UserSeries />
         </Route>
+        <Route path="/Search">
+          <Search />
+        </Route>
         <Route path="/">
           <Home />
         </Route>
+        
       </Switch>
   </Router>
   );
