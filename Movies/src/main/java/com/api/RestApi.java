@@ -21,6 +21,9 @@ import com.dbcontroller.MainController;
 import com.dbcontroller.MovieRepository;
 import com.dbcontroller.SearchRepository;
 import com.dbcontroller.SerieRepository;
+import com.kafkacontroller.KafkaConsumer;
+import com.kafkacontroller.KafkaProducer;
+import com.kafkacontroller.MessageStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +47,19 @@ public class RestApi {
 	@Autowired
 	MainController mainController = new MainController();
 	
+	@Autowired
+	KafkaProducer producer;
+	
+	@Autowired
+	KafkaConsumer consumer;
+	
+	@Autowired
+	MessageStorage storage;
+	
 	//PROCURAR NA BASE DADOS 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping(value="/Search/", method = RequestMethod.GET)
 	public ResponseEntity<Home> Search(@RequestParam("name") String name) {
-		System.out.print("AQUI"+name);
 		Home search = new Home();
 		//MOVIE//
 		Iterable<Movie> movie = movieRepository.findAll();
@@ -199,8 +210,9 @@ public class RestApi {
 		Optional<com.Models.Movie> movie = movieRepository.findById(id);
 		// adicionar o utilizador aquele filme
 		movie.get().user = 1;
+		producer.send("ADD:"+movie.toString());
 		movieRepository.save(movie.get());
-
+		consumer.processMessage(movie.get().Title);
 		return new ResponseEntity<Optional<com.Models.Movie>>(movie, HttpStatus.OK);		
 	}
 	
@@ -211,8 +223,9 @@ public class RestApi {
 		Optional<com.Models.Movie> movie = movieRepository.findById(id);
 		// remover o utilizador aquele filme
 		movie.get().user=0;
+		producer.send("REMOVE:"+movie.toString());
 		mainController.addMovie(id);
-		System.out.println(movie);
+		consumer.processMessage("REMOVED:"+movie.get().Title);
 		return new ResponseEntity<Optional<com.Models.Movie>>(movie, HttpStatus.OK);		
 	}
 	////////////////////////////////////////////////////////////////////SERIES///////////////////////////////////////////////////////////////
@@ -326,8 +339,9 @@ public class RestApi {
 		Optional<com.Models.Serie> serie = serieRepository.findById(id);
 		// adicionar ao utilizador
 		serie.get().user = 1;
+		producer.send("ADD:"+serie.toString());
 		serieRepository.save(serie.get());
-		System.out.println(id);
+		consumer.processMessage("ADDED:"+serie.get().Title);
 		return new ResponseEntity<Optional<com.Models.Serie>>(serie, HttpStatus.OK);		
 	}
 	
@@ -337,10 +351,20 @@ public class RestApi {
 		//mainController.addSerie(id);	
 		Optional<com.Models.Serie> serie = serieRepository.findById(id);
 		// adicionar ao utilizador
+		producer.send("REMOVE:"+serie.toString());
 		serie.get().user = 0;
 		mainController.addSerie(id);
-		System.out.println(serie);
+		consumer.processMessage("REMOVED:"+serie.get().Title);
 		return new ResponseEntity<Optional<com.Models.Serie>>(serie, HttpStatus.OK);		
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@RequestMapping(value="/allMessages", method = RequestMethod.GET)
+	public String getKafkaMessages() {
+		String messages = storage.toString();
+		storage.clear();
+		
+		return messages;
 	}
 	
 

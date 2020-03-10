@@ -23,7 +23,7 @@ import com.dbcontroller.MainController;
 import com.restclient.CallRestService;
 
 @SpringBootApplication
-@ComponentScan({"com.dbcontroller", "com.api"})
+@ComponentScan({"com.dbcontroller", "com.api", "com.kafkacontroller"})
 @EnableJpaRepositories({"com.dbcontroller"})
 @EntityScan({"com.Models"})
 public class MoviesApplication {
